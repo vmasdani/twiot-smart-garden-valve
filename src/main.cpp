@@ -25,13 +25,14 @@ int registerDevice()
         url += serverUrl;
         url += extension;
 
-        // JSON format: {"ip":"192.168.100.102","mac":"AC:67:B2:2D:3D:5C"},  approx. only 50 bytes
-        DynamicJsonDocument doc(75);
+        // JSON format: {"ip":"192.168.100.102","mac":"AC:67:B2:2D:3D:5C", "d_ty": "Node"},  approx. only 50 bytes
+        DynamicJsonDocument doc(100);
         String docStr;
-        docStr.reserve(75);
+        docStr.reserve(100);
 
         doc["ip"] = WiFi.localIP().toString();
         doc["mac"] = WiFi.macAddress();
+        doc["d_ty"] = "Node";
 
         serializeJson(doc, docStr);
         Serial.print(F("Payload length: "));
