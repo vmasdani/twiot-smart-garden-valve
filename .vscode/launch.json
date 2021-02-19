@@ -12,12 +12,12 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/valianmasdani/codes/pio/esp32http/.pio/build/esp32doit-devkit-v1/firmware.elf",
+            "executable": "/home/valianm/codes/pio/twiot-smart-garden-valve/.pio/build/esp32doit-devkit-v1/firmware.elf",
             "projectEnvName": "esp32doit-devkit-v1",
-            "toolchainBinDir": "/home/valianmasdani/.platformio/packages/toolchain-xtensa32/bin",
+            "toolchainBinDir": "/home/valianm/.platformio/packages/toolchain-xtensa32/bin",
             "preLaunchTask": {
                 "type": "PlatformIO",
-                "task": "Pre-Debug"
+                "task": "Pre-Debug (esp32doit-devkit-v1)"
             },
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -25,9 +25,9 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/valianmasdani/codes/pio/esp32http/.pio/build/esp32doit-devkit-v1/firmware.elf",
+            "executable": "/home/valianm/codes/pio/twiot-smart-garden-valve/.pio/build/esp32doit-devkit-v1/firmware.elf",
             "projectEnvName": "esp32doit-devkit-v1",
-            "toolchainBinDir": "/home/valianmasdani/.platformio/packages/toolchain-xtensa32/bin",
+            "toolchainBinDir": "/home/valianm/.platformio/packages/toolchain-xtensa32/bin",
             "internalConsoleOptions": "openOnSessionStart"
         }
     ]

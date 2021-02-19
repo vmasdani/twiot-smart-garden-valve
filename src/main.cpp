@@ -1,8 +1,16 @@
 #include "Arduino.h"
 #include "wifikeys.h"
+
+#ifdef ESP32
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
+#elif defined ESP8266
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+#include <ESP8266HTTPClient.h>
+#endif
+
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
 
@@ -40,7 +48,7 @@ int registerDevice()
         Serial.println(docStr);
 
         HTTPClient http;
-        http.begin(url);
+        http.begin(url.c_str());
         http.addHeader("content-type", "application/json");
         auto code = http.POST(docStr);
 
@@ -66,7 +74,7 @@ int registerDevice()
     return id;
 }
 
-bool topicMatches(char *topic, int deviceId, char *route)
+bool topicMatches(char *topic, int deviceId, const char *route)
 {
     String topicStr;
     topicStr.reserve(strlen(String(deviceId).c_str()) + strlen(route));
@@ -84,7 +92,7 @@ bool topicMatches(char *topic, int deviceId, char *route)
     }
 }
 
-void callback(char *topic, byte *payload, unsigned int length)
+void callback(char *topic, byte *payload, int length)
 {
     String contents;
     contents.reserve(length);
@@ -169,8 +177,10 @@ void setup()
     }
 
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED)
-        ;
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Connecting...");
+        delay(1000);
+    }
 
     // Run initial HTTPrequest for device registration
     deviceId = registerDevice();
@@ -207,7 +217,7 @@ void responseCheck()
 
     Serial.println(url);
 
-    http.begin(url);
+    http.begin(url.c_str());
 
     auto code = http.GET();
 
