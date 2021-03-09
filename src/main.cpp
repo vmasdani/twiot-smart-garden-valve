@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "wifikeys.h"
+#include "config.h"
 
 #ifdef ESP32
 #include <WiFi.h>
@@ -26,7 +26,6 @@ int registerDevice()
     while (id == 0)
     {
         const char *extension = "/register-device";
-
         String url;
         url.reserve(strlen(serverUrl) + strlen(extension));
 
@@ -125,7 +124,14 @@ void callback(char *topic, byte *payload, int length)
             Serial.print(F("water_on: "));
             Serial.println(waterOn);
 
-            digitalWrite(LED_BUILTIN, waterOn);
+            if (waterOn)
+            {
+                digitalWrite(LED_BUILTIN, RELAY_ON);
+            }
+            else
+            {
+                digitalWrite(LED_BUILTIN, RELAY_OFF);
+            }
         }
     }
     else
@@ -165,6 +171,7 @@ void setup()
     for (auto pin : outputs)
     {
         pinMode(pin, OUTPUT);
+        digitalWrite(pin, RELAY_OFF);
     }
 
     // Wait 4 seconds for ESP32 to work properly (see ESP32 WiFi example)
@@ -177,7 +184,8 @@ void setup()
     }
 
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
         Serial.println("Connecting...");
         delay(1000);
     }
